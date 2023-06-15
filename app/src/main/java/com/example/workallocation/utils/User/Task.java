@@ -81,21 +81,6 @@ public class Task extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-        uploads=findViewById(R.id.uploading);
-        textupload=findViewById(R.id.uploaded);
-/*
-        uploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-                // We will be redirected to choose pdf
-                galleryIntent.setType("application/pdf");
-                startActivityForResult(galleryIntent, 1);
-            }
-        });
-*/
         q = findViewById(R.id.q1);
         w = findViewById(R.id.q2);
         e = findViewById(R.id.q3);
@@ -161,7 +146,7 @@ public class Task extends AppCompatActivity {
         finance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("license");
+                tt.setText("finance");
                 q.setVisibility(View.VISIBLE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
@@ -172,7 +157,7 @@ public class Task extends AppCompatActivity {
         others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("headquarters");
+                tt.setText("work");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.GONE);
@@ -183,7 +168,7 @@ public class Task extends AppCompatActivity {
         inquire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("ict");
+                tt.setText("finance");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.VISIBLE);
                 e.setVisibility(View.GONE);
@@ -205,7 +190,7 @@ public class Task extends AppCompatActivity {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tt.setText("trade");
+                tt.setText("social");
                 q.setVisibility(View.GONE);
                 w.setVisibility(View.GONE);
                 e.setVisibility(View.VISIBLE);

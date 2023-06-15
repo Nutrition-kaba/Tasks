@@ -21,24 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
-TextView email,phone,id,user,name;
-DatabaseReference reference;
-FirebaseAuth mAuth;
+    TextView email, phone, id, user, name;
+    DatabaseReference reference;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onStart() {
         super.onStart();
-        String emaill=mAuth.getCurrentUser().getEmail();
-        if (emaill.contains("admin")){
-            user.setText("Admin");
-        }
-        else if (emaill.contains("worker")){
-            user.setText("Worker");
-        }
-        else{
-            user.setText("Client");
-        }
-        reference= FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getUid());
+        user.setText("Client");
+        reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -61,22 +52,22 @@ FirebaseAuth mAuth;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        email=findViewById(R.id.profile_emailaddress);
-        phone=findViewById(R.id.profile_phonenumber);
-        id=findViewById(R.id.profile);
-        name=findViewById(R.id.profile_name);
-        user=findViewById(R.id.profile_client);
-        ImageView im=findViewById(R.id.back_arrows);
-        mAuth=FirebaseAuth.getInstance();
+        email = findViewById(R.id.profile_emailaddress);
+        phone = findViewById(R.id.profile_phonenumber);
+        id = findViewById(R.id.profile);
+        name = findViewById(R.id.profile_name);
+        user = findViewById(R.id.profile_client);
+        ImageView im = findViewById(R.id.back_arrows);
+        mAuth = FirebaseAuth.getInstance();
         im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ProfileActivity.this, UserDashboard.class);
+                Intent intent = new Intent(ProfileActivity.this, UserDashboard.class);
                 startActivity(intent);
                 finish();
             }
         });
-        Button btn=findViewById(R.id.logoutuser);
+        Button btn = findViewById(R.id.logoutuser);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.workallocation.utils.Admin.AssignWorkToWorkers;
 import com.example.workallocation.Entity.TaskModel;
 import com.example.workallocation.R;
 import com.google.firebase.database.DataSnapshot;
@@ -159,26 +157,6 @@ public class ViewAllTasksAdapterr extends RecyclerView.Adapter<ViewAllTasksAdapt
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-            holder.assign.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(context.getApplicationContext(), AssignWorkToWorkers.class);
-                    intent.putExtra("id",model.getTaskId());
-                    intent.putExtra("dep",model.getDepartment());
-                    intent.putExtra("desc",model.getDescription());
-                    intent.putExtra("name",model.getTitle());
-                    intent.putExtra("start",model.getStartdate());
-                    intent.putExtra("end",model.getEnddate());
-
-                    context.startActivity(intent);
-                }
-            });
-            holder.assigned.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "Task already assigned", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (ParseException e) {

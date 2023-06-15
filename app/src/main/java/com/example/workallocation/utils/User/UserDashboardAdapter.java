@@ -1,4 +1,5 @@
-package com.example.workallocation.Adapters;
+package com.example.workallocation.utils.User;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workallocation.Entity.TaskModel;
 import com.example.workallocation.R;
-import com.example.workallocation.utils.Admin.View_task_details_admin_dashboard;
+import com.example.workallocation.utils.User.View_user_task_details;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,62 +23,43 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
-public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder> {
+public class UserDashboardAdapter extends RecyclerView.Adapter<UserDashboardAdapter.MyViewHolder> {
     Context context;
     ArrayList<TaskModel> list;
     FirebaseAuth mAuth;
     String subjects;
-    Date endDate;
-    Date end;
 
 
 
-    public AdminAdapter(Context context2, ArrayList<TaskModel> list2) {
+    public UserDashboardAdapter(Context context2, ArrayList<TaskModel> list2) {
         this.context = context2;
         this.list = list2;
     }
 
-    public AdminAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(this.context).inflate(R.layout.listing, parent, false));
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(this.context).inflate(R.layout.dash, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
         TaskModel model = this.list.get(position);
         holder.mname.setText(model.getTitle());
         holder.mdesc.setText(model.getDescription());
         holder.mstart.setText(model.getStartdate());
         holder.mend.setText(" - "+model.getEnddate());
-        SimpleDateFormat sdff = new SimpleDateFormat("dd-MM-yyyy");
-        end=new Date();
-        try {
-            endDate = sdff.parse(model.getEnddate());
-            end = sdff.parse(String.valueOf(end));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        if (endDate.before(end)) {
-            holder.due.setVisibility(View.VISIBLE);
-        }
-
         mAuth=FirebaseAuth.getInstance();
-        DatabaseReference referencesfgf =  FirebaseDatabase.getInstance().getReference("tasks").child(model.getTaskId());
-        referencesfgf.child("status").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference referencesfgf =  FirebaseDatabase.getInstance().getReference("usertask").child(mAuth.getCurrentUser().getUid());
+        referencesfgf.child(model.getTaskId()).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 subjects=snapshot.getValue(String.class);
                 if (subjects.equalsIgnoreCase("accepted")){
-                    holder.btn.setText("Accepted");
+                    holder.btn.setText("Complete");
                 }
                 else if(subjects.equalsIgnoreCase("Assigned")){
-                    holder.btn.setText("Assigned");
+                    holder.btn.setText("Accept");
                 }
                 else if(subjects.equalsIgnoreCase("Completed")){
                     holder.btn.setText("Completed");
@@ -93,7 +75,7 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(context.getApplicationContext(), View_task_details_admin_dashboard.class);
+                Intent intent=new Intent(context.getApplicationContext(), View_user_task_details.class);
                 intent.putExtra("id",model.getTaskId());
                 intent.putExtra("dep",model.getDepartment());
                 intent.putExtra("desc",model.getDescription());
@@ -101,13 +83,13 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder
                 intent.putExtra("start",model.getStartdate());
                 intent.putExtra("end",model.getEnddate());
 
+
                 context.startActivity(intent);
             }
         });
 
+
     }
-
-
 
 
     public int getItemCount() {
@@ -115,7 +97,7 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mname,mdesc,mstart,mend,due;
+        TextView mname,mdesc,mstart,mend;
         Button btn;
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -124,10 +106,8 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder
             this.mstart = (TextView) itemView.findViewById(R.id.lll_start);
             this.mend = (TextView) itemView.findViewById(R.id.lll_end);
             btn=itemView.findViewById(R.id.accept);
-            due=itemView.findViewById(R.id.show_due);
 
             mdesc.setMovementMethod(new ScrollingMovementMethod());
         }
     }
 }
-

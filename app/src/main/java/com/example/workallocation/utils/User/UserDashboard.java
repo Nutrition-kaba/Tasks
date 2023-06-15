@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.workallocation.Adapters.UserDashboardAdapter;
 import com.example.workallocation.Entity.TaskModel;
 import com.example.workallocation.R;
 import com.example.workallocation.UI.ProfileActivity;

@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Registration extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Registration extends AppCompatActivity{
 private EditText nam,pass,phon,nation,ema;
 Button btn;
 FirebaseAuth mAuth;
@@ -34,7 +34,6 @@ Spinner spin;
 String user;
 String path;
 TextView tt;
-    String dep[]={"Admin","Client","Worker"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +47,6 @@ TextView tt;
         ema=findViewById(R.id.et_email);
         tt=findViewById(R.id.tr);
         mAuth=FirebaseAuth.getInstance();
-        spin=findViewById(R.id.spinn);
-        spin.setVisibility(View.GONE);
-        spin.setOnItemSelectedListener(this);
-        ArrayAdapter ad= new ArrayAdapter(this,android.R.layout.simple_spinner_item,dep);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin.setAdapter(ad);
         loading=new ProgressDialog(this);
         TextView textView=findViewById(R.id.swipeLeft);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +138,4 @@ TextView tt;
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        user=dep[i];
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
